@@ -56,6 +56,17 @@ WCSimDetectorMessenger::WCSimDetectorMessenger(WCSimDetectorConstruction* WCSimD
 			  );
   WCVisChoice->AvailableForStates(G4State_PreInit, G4State_Idle);
 
+  SheetChoice = new G4UIcmdWithAString("/WCSim/Sheet",this);
+  SheetChoice->SetGuidance("Set the sheet material for the WC.");
+  SheetChoice->SetGuidance("Available options are:\n"
+              "blacksheet\n"
+              "mirror\n"
+              );
+  SheetChoice->SetParameterName("Sheet", false);
+  SheetChoice->SetCandidates("blacksheet "
+              "mirror "
+              );
+  SheetChoice->AvailableForStates(G4State_PreInit, G4State_Idle);
 
   PMTSize = new G4UIcmdWithAString("/WCSim/WCPMTsize",this);
   PMTSize->SetGuidance("Set alternate PMT size for the WC (Must be entered after geometry details are set).");
@@ -112,6 +123,7 @@ WCSimDetectorMessenger::~WCSimDetectorMessenger()
   delete PMTQEMethod;
   delete PMTCollEff;
   delete waterTank_Length;
+  delete SheetChoice;
   delete WCVisChoice;
 
   delete tubeCmd;
@@ -191,6 +203,12 @@ void WCSimDetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 	  }
 	  G4cout << G4endl;
 	}
+
+    if (command == SheetChoice){
+      G4cout << "Set Sheet Choice " << newValue << " ";
+      WCSimDetector->SetSheet_Choice(newValue);
+      G4cout << G4endl;
+    }
 	
 	if (command == WCVisChoice){
 	  G4cout << "Set Vis Choice " << newValue << " ";

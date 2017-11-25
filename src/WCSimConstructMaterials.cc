@@ -743,6 +743,24 @@ void WCSimDetectorConstruction::ConstructMaterials()
    OpWaterBSSurface->SetFinish(groundfrontpainted);
    OpWaterBSSurface->SetSigmaAlpha(0.1);
 
+   const G4int NUMENTRIES_UVenhAl = 9;
+   G4double ENERGY_UVenhAl[NUMENTRIES_UVenhAl] =
+     { 1.56962e-09*GeV, 1.72222e-09*GeV, 2.10169e-09*GeV, 2.43137e-09*GeV,
+       2.88371e-09*GeV, 3.54285e-09*GeV, 4.59258e-09*GeV, 5.39129e-09*GeV, 6.19998e-09*GeV };
+   
+   G4double REFLECTIVITY_UVenhAl[NUMENTRIES_UVenhAl] =
+     { 0.86, 0.88, 0.90, 0.90,
+       0.90, 0.89, 0.85, 0.76, 0.60 };
+   
+   G4double EFFICIENCY_UVenhAl[NUMENTRIES_UVenhAl] = { 0.0 };
+   
+   OpWaterUVenhAlSurface =
+     new G4OpticalSurface("WaterUVenhAlSurface");
+   OpWaterUVenhAlSurface->SetType(dielectric_metal);
+   OpWaterUVenhAlSurface->SetModel(glisur);
+   OpWaterUVenhAlSurface->SetFinish(polished);
+
+
    const G4int NUM = 2;
    //   G4double PP[NUM] =
    //{ 2.038E-9*GeV, 4.144E-9*GeV };
@@ -887,6 +905,12 @@ void WCSimDetectorConstruction::ConstructMaterials()
    myST1->AddProperty("REFLECTIVITY", ENERGY_water, REFLECTIVITY_blacksheet, NUMENTRIES_water);
    myST1->AddProperty("EFFICIENCY", ENERGY_water, EFFICIENCY_blacksheet, NUMENTRIES_water);
    OpWaterBSSurface->SetMaterialPropertiesTable(myST1);
+
+   // UV enhanced Al
+   G4MaterialPropertiesTable *myST_UVenhAl = new G4MaterialPropertiesTable();
+   myST_UVenhAl->AddProperty("REFLECTIVITY", ENERGY_UVenhAl, REFLECTIVITY_UVenhAl, NUMENTRIES_UVenhAl);
+   myST_UVenhAl->AddProperty("EFFICIENCY", ENERGY_UVenhAl, EFFICIENCY_UVenhAl, NUMENTRIES_UVenhAl);
+   OpWaterUVenhAlSurface->SetMaterialPropertiesTable(myST_UVenhAl);
 
    //Glass to Cathode surface inside PMTs
    G4MaterialPropertiesTable *myST2 = new G4MaterialPropertiesTable();

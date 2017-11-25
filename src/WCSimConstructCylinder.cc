@@ -271,6 +271,15 @@ else {
   // The Blacksheet, a daughter of the cells containing PMTs,
   // and also some other volumes to make the edges light tight
   //-----------------------------------------------------------
+  
+  // same in ConstructCaps below
+  G4String sheetMaterial = "Blacksheet";
+  G4OpticalSurface *OpWaterSheetSurface = OpWaterBSSurface;
+  if (Sheet_Choice == "mirror") {
+      sheetMaterial = "Aluminum";
+      OpWaterSheetSurface = OpWaterUVenhAlSurface;
+  }
+
 
   //-------------------------------------------------------------
   // add barrel blacksheet to the normal barrel cells 
@@ -291,7 +300,7 @@ else {
 
   logicWCBarrelCellBlackSheet =
     new G4LogicalVolume(solidWCBarrelCellBlackSheet,
-                        G4Material::GetMaterial("Blacksheet"),
+                        G4Material::GetMaterial(sheetMaterial),
                         "WCBarrelCellBlackSheet",
                           0,0,0);
 
@@ -308,7 +317,7 @@ else {
     = new G4LogicalBorderSurface("WaterBSBarrelCellSurface",
                                  physiWCBarrelCell,
                                  physiWCBarrelCellBlackSheet, 
-                                 OpWaterBSSurface);
+                                 OpWaterSheetSurface);
 
  // Change made here to have the if statement contain the !debugmode to be consistent
  // This code gives the Blacksheet its color. 
@@ -432,7 +441,7 @@ else {
     //G4cout << * solidWCTowerBlackSheet << G4endl;
     logicWCTowerBlackSheet =
       new G4LogicalVolume(solidWCTowerBlackSheet,
-			  G4Material::GetMaterial("Blacksheet"),
+			  G4Material::GetMaterial(sheetMaterial),
 			  "WCExtraTowerBlackSheet",
 			    0,0,0);
 
@@ -449,7 +458,7 @@ else {
       = new G4LogicalBorderSurface("WaterBSBarrelCellSurface",
 				   physiWCTowerCell,
 				   physiWCTowerBlackSheet, 
-				   OpWaterBSSurface);
+				   OpWaterSheetSurface);
 
 // These lines add color to the blacksheet in the extratower. If using RayTracer, comment the first chunk and use the second. The Blacksheet should be green.
 
@@ -905,6 +914,14 @@ G4LogicalVolume* WCSimDetectorConstruction::ConstructCaps(G4int zflip)
   // barrel cells.
   // ---------------------------------------------------------
 
+  // same in ConstructCylinder above
+  G4String sheetMaterial = "Blacksheet";
+  G4OpticalSurface *OpWaterSheetSurface = OpWaterBSSurface;
+  if (Sheet_Choice == "mirror") {
+      sheetMaterial = "Aluminum";
+      OpWaterSheetSurface = OpWaterUVenhAlSurface;
+  }
+
 
    G4VPhysicalVolume* physiWCBarrelBorderCellBlackSheet =
     new G4PVPlacement(0,
@@ -919,7 +936,7 @@ G4LogicalVolume* WCSimDetectorConstruction::ConstructCaps(G4int zflip)
     = new G4LogicalBorderSurface("WaterBSBarrelCellSurface",
                                  physiWCBarrelBorderCell,
                                  physiWCBarrelBorderCellBlackSheet,
-                                 OpWaterBSSurface);
+                                 OpWaterSheetSurface);
 
   // we have to declare the logical Volumes 
   // outside of the if block to access it later on 
@@ -977,7 +994,7 @@ G4LogicalVolume* WCSimDetectorConstruction::ConstructCaps(G4int zflip)
       = new G4LogicalBorderSurface("WaterBSBarrelCellSurface",
 				   physiWCExtraBorderCell,
 				   physiWCExtraBorderBlackSheet, 
-				   OpWaterBSSurface);
+				   OpWaterSheetSurface);
 
   }
  //------------------------------------------------------------
@@ -1136,7 +1153,7 @@ G4LogicalVolume* WCSimDetectorConstruction::ConstructCaps(G4int zflip)
   }
   G4LogicalVolume* logicWCCapBlackSheet =
     new G4LogicalVolume(solidWCCapBlackSheet,
-			G4Material::GetMaterial("Blacksheet"),
+			G4Material::GetMaterial(sheetMaterial),
 			"WCCapBlackSheet",
 			0,0,0);
   G4VPhysicalVolume* physiWCCapBlackSheet =
@@ -1150,7 +1167,7 @@ G4LogicalVolume* WCSimDetectorConstruction::ConstructCaps(G4int zflip)
    G4LogicalBorderSurface * WaterBSBottomCapSurface 
       = new G4LogicalBorderSurface("WaterBSCapPolySurface",
                                    physiWCCap,physiWCCapBlackSheet,
-                                   OpWaterBSSurface);
+                                   OpWaterSheetSurface);
 
    G4VisAttributes* WCCapBlackSheetVisAtt 
       = new G4VisAttributes(G4Colour(0.9,0.2,0.2));

@@ -74,6 +74,8 @@ WCSimDetectorConstruction::WCSimDetectorConstruction(G4int DetConfig,WCSimTuning
   SetPMT_Coll_Eff(1);
   // set default visualizer to OGLSX
   SetVis_Choice("OGLSX");
+  // set default sheet to blacksheet
+  SetSheet_Choice("blacksheet");
 
   //----------------------------------------------------- 
   // Make the detector messenger to allow changing geometry

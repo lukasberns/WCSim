@@ -120,6 +120,9 @@ public:
   void   SetVis_Choice(G4String choice){Vis_Choice = choice;}
   G4String GetVis_Choice() {return Vis_Choice;}
 
+  void   SetSheet_Choice(G4String choice){Sheet_Choice = choice;}
+  G4String GetSheet_Choice() {return Sheet_Choice;}
+
   //Partition Length
   void SetwaterTank_Length(G4double length){waterTank_Length = length;}
   void SetWaterTubeLength(G4double length){WCLength = length;}
@@ -155,6 +158,7 @@ private:
 
   //Water, Blacksheet surface
   G4OpticalSurface * OpWaterBSSurface;
+  G4OpticalSurface * OpWaterUVenhAlSurface;
 
   //Glass, Cathode surface in PMTs
 
@@ -240,6 +244,9 @@ private:
   // "RayTracer" for RayTracer visualization
   G4String Vis_Choice;
   
+  // "blacksheet" for normal blacksheets
+  // "mirror" for UV-enhanced Al mirrors
+  G4String Sheet_Choice;
 
   G4double WCLength;
 
