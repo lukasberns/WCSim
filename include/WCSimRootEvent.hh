@@ -371,6 +371,20 @@ public:
     tmp->Clear();
   }
 
+  void DeleteFirstTrigger() {
+    WCSimRootTrigger* tmp = dynamic_cast<WCSimRootTrigger*>(fEventList->RemoveAt(0));
+    delete tmp;
+  }
+
+  void DeleteTriggers() {
+    for ( int i = fEventList->GetLast() ; i>=0 ; i--) {
+      WCSimRootTrigger* tmp = 
+	dynamic_cast<WCSimRootTrigger*>(fEventList->RemoveAt(i));
+      delete tmp;
+    }
+    Current = 0;
+  }
+
 private:
   //std::vector<WCSimRootTrigger*> fEventList;
   TObjArray* fEventList;
