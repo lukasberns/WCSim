@@ -24,6 +24,7 @@
 #include "G4LogicalSkinSurface.hh"
 #include "G4OpBoundaryProcess.hh"
 #include "G4OpticalSurface.hh"
+#include "G4SurfaceProperty.hh"
 #include "G4UserLimits.hh"
 #include "G4ReflectionFactory.hh"
 #include "G4GeometryTolerance.hh"
@@ -274,11 +275,16 @@ else {
   
   // same in ConstructCaps below
   G4String sheetMaterial = "Blacksheet";
-  G4OpticalSurface *OpWaterSheetSurface = OpWaterBSSurface;
+  G4SurfaceProperty *OpWaterSheetSurface = OpWaterBSSurface;
   if (Sheet_Choice == "mirror") {
       sheetMaterial = "Aluminum";
       OpWaterSheetSurface = OpWaterUVenhAlSurface;
   }
+  else if (Sheet_Choice == "retro") {
+      sheetMaterial = "Aluminum"; // prevent G4OpticalProcess from interfering
+      OpWaterSheetSurface = OpWaterRetroSurface;
+  }
+
 
 
   //-------------------------------------------------------------
@@ -916,10 +922,14 @@ G4LogicalVolume* WCSimDetectorConstruction::ConstructCaps(G4int zflip)
 
   // same in ConstructCylinder above
   G4String sheetMaterial = "Blacksheet";
-  G4OpticalSurface *OpWaterSheetSurface = OpWaterBSSurface;
+  G4SurfaceProperty *OpWaterSheetSurface = OpWaterBSSurface;
   if (Sheet_Choice == "mirror") {
       sheetMaterial = "Aluminum";
       OpWaterSheetSurface = OpWaterUVenhAlSurface;
+  }
+  else if (Sheet_Choice == "retro") {
+      sheetMaterial = "Aluminum"; // prevent G4OpticalProcess from interfering
+      OpWaterSheetSurface = OpWaterRetroSurface;
   }
 
 

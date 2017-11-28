@@ -1,4 +1,5 @@
 #include "WCSimPhysicsListFactory.hh"
+#include "WCSimOpticalRetroPhysics.hh"
 
 #include "G4PhysicalConstants.hh"
 #include "G4SystemOfUnits.hh"
@@ -86,6 +87,8 @@ void WCSimPhysicsListFactory::InitializeList(){
     }
     G4cout << "RegisterPhysics: OpticalPhysics" << G4endl; 
     RegisterPhysics(new G4OpticalPhysics());
+    G4cout << "RegisterPhysics: OpticalRetroPhysics" << G4endl;
+    RegisterPhysics(new WCSimOpticalRetroPhysics());
   } else {
     G4cout << "Physics list " << PhysicsListName << " is not understood" << G4endl;
   }

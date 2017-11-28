@@ -760,6 +760,10 @@ void WCSimDetectorConstruction::ConstructMaterials()
    OpWaterUVenhAlSurface->SetModel(glisur);
    OpWaterUVenhAlSurface->SetFinish(polished);
 
+   OpWaterRetroSurface = 
+     new WCSimOpticalSurface("WaterRetroSurface");
+   OpWaterRetroSurface->SetModel(prism);
+   OpWaterRetroSurface->SetFinish(perfect);
 
    const G4int NUM = 2;
    //   G4double PP[NUM] =
@@ -911,6 +915,9 @@ void WCSimDetectorConstruction::ConstructMaterials()
    myST_UVenhAl->AddProperty("REFLECTIVITY", ENERGY_UVenhAl, REFLECTIVITY_UVenhAl, NUMENTRIES_UVenhAl);
    myST_UVenhAl->AddProperty("EFFICIENCY", ENERGY_UVenhAl, EFFICIENCY_UVenhAl, NUMENTRIES_UVenhAl);
    OpWaterUVenhAlSurface->SetMaterialPropertiesTable(myST_UVenhAl);
+
+   // retro-reflector. Use same as UV-enhanced Al for now
+   OpWaterRetroSurface->SetMaterialPropertiesTable(myST_UVenhAl);
 
    //Glass to Cathode surface inside PMTs
    G4MaterialPropertiesTable *myST2 = new G4MaterialPropertiesTable();

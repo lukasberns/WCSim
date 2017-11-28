@@ -61,10 +61,12 @@ WCSimDetectorMessenger::WCSimDetectorMessenger(WCSimDetectorConstruction* WCSimD
   SheetChoice->SetGuidance("Available options are:\n"
               "blacksheet\n"
               "mirror\n"
+              "retro\n"
               );
   SheetChoice->SetParameterName("Sheet", false);
   SheetChoice->SetCandidates("blacksheet "
               "mirror "
+              "retro "
               );
   SheetChoice->AvailableForStates(G4State_PreInit, G4State_Idle);
 
