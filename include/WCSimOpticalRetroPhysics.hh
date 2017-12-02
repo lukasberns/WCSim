@@ -17,7 +17,7 @@
 
 #include "G4OpticalProcessIndex.hh"
 
-#include "WCSimOpticalSurface.hh"
+#include "WCSimOpticalRetroSurface.hh"
 
 #include <vector>
 

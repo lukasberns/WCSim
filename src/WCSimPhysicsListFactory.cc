@@ -85,8 +85,12 @@ void WCSimPhysicsListFactory::InitializeList(){
       G4cout << "RegisterPhysics: " << elem->GetPhysicsName() << G4endl;
       RegisterPhysics(elem);
     }
+    
     G4cout << "RegisterPhysics: OpticalPhysics" << G4endl; 
-    RegisterPhysics(new G4OpticalPhysics());
+    G4OpticalPhysics *opticalPhysics = new G4OpticalPhysics();
+    opticalPhysics->Configure(kBoundary, false); // optical boundary processes will be handled by WCSimOpticalRetroPhysics
+    RegisterPhysics(opticalPhysics);
+
     G4cout << "RegisterPhysics: OpticalRetroPhysics" << G4endl;
     RegisterPhysics(new WCSimOpticalRetroPhysics());
   } else {

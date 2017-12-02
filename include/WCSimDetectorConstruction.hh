@@ -4,7 +4,7 @@
 #include "WCSimPmtInfo.hh"
 #include "WCSimPMTObject.hh"
 #include "WCSimRootOptions.hh"
-#include "WCSimOpticalSurface.hh"
+#include "WCSimOpticalRetroSurface.hh"
 
 #include "G4Transform3D.hh"
 #include "G4VUserDetectorConstruction.hh"
@@ -160,7 +160,7 @@ private:
   //Water, Blacksheet surface
   G4OpticalSurface * OpWaterBSSurface;
   G4OpticalSurface * OpWaterUVenhAlSurface;
-  WCSimOpticalSurface * OpWaterRetroSurface;
+  WCSimOpticalRetroSurface * OpWaterRetroSurface;
 
   //Glass, Cathode surface in PMTs
 

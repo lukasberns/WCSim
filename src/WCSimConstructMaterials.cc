@@ -761,9 +761,8 @@ void WCSimDetectorConstruction::ConstructMaterials()
    OpWaterUVenhAlSurface->SetFinish(polished);
 
    OpWaterRetroSurface = 
-     new WCSimOpticalSurface("WaterRetroSurface");
-   OpWaterRetroSurface->SetModel(prism);
-   OpWaterRetroSurface->SetFinish(perfect);
+     new WCSimOpticalRetroSurface("WaterRetroSurface");
+   OpWaterRetroSurface->SetRetroModel(prism);
 
    const G4int NUM = 2;
    //   G4double PP[NUM] =
