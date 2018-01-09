@@ -82,7 +82,7 @@ void WCSimOpRetroBoundaryProcess::CustomBoundary()
         if (OpticalRetroSurface) {
                 theRetroStatus = RetroReflection;
                 G4double rand = G4UniformRand();
-                if (rand > theReflectivity) {
+                if (rand > theReflectivity*theReflectivity*theReflectivity) { // three reflections, so ^3
                    DoAbsorption();
                 }
                 else {
