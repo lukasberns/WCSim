@@ -39,6 +39,8 @@ WCSimOpRetroBoundaryProcess::WCSimOpRetroBoundaryProcess(const G4String& process
 {
 	theRetroStatus = RetroUndefined;
         OpticalRetroSurface = NULL;
+        fTrack = NULL;
+        fStep = NULL;
 }
 
 // WCSimOpRetroBoundaryProcess::WCSimOpRetroBoundaryProcess(const G4OpBoundaryProcess &right)
@@ -63,7 +65,12 @@ G4VParticleChange*
 WCSimOpRetroBoundaryProcess::PostStepDoIt(const G4Track& aTrack, const G4Step& aStep)
 {
         theRetroStatus = RetroUndefined;
-        return G4OpBoundaryProcess::PostStepDoIt(aTrack, aStep);
+        fTrack = &aTrack;
+        fStep = &aStep;
+        G4VParticleChange *aChange = G4OpBoundaryProcess::PostStepDoIt(aTrack, aStep);
+        fTrack = NULL;
+        fStep = NULL;
+        return aChange;
 }
 
 void WCSimOpRetroBoundaryProcess::BoundaryProcessVerbose() const
@@ -92,5 +99,35 @@ void WCSimOpRetroBoundaryProcess::CustomBoundary()
         else {
             G4cout << "Error: was expecting WCSimOpticalRetroSurface for custom_boundary" << G4endl;
         }
+}
+
+void WCSimOpRetroBoundaryProcess::DoRetroReflection() {
+    // we kill the old particle and create a new one, so this does not get identified as a "scattering" process
+    
+    aParticleChange.ProposeTrackStatus(fStopAndKill);
+    G4StepPoint* pPostStepPoint = fStep->GetPostStepPoint();
+
+    NewMomentum = -OldMomentum; // only the direction
+    NewPolarization = OldPolarization;
+
+    // Generate a new photon:
+    G4DynamicParticle* aRetroPhoton =
+      new G4DynamicParticle(G4OpticalPhoton::OpticalPhoton(), NewMomentum);
+    aRetroPhoton->SetKineticEnergy(thePhotonMomentum);
+    aRetroPhoton->SetPolarization
+           (NewPolarization.x(),
+            NewPolarization.y(),
+            NewPolarization.z());
+
+    G4double aSecondaryTime = pPostStepPoint->GetGlobalTime();
+    G4ThreeVector aSecondaryPosition = pPostStepPoint->GetPosition();
+
+    G4Track* aSecondaryTrack =
+      new G4Track(aRetroPhoton,aSecondaryTime,aSecondaryPosition);
+    aSecondaryTrack->SetTouchableHandle(fTrack->GetTouchableHandle());
+    // aSecondaryTrack->SetTouchableHandle((G4VTouchable*)0);
+
+    aSecondaryTrack->SetParentID(fTrack->GetTrackID());
+    aParticleChange.AddSecondary(aSecondaryTrack);
 }
 

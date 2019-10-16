@@ -94,6 +94,10 @@ protected:
 
 	WCSimOpticalRetroSurface* OpticalRetroSurface;
 	WCSimOpRetroBoundaryProcessStatus theRetroStatus;
+    
+    // the following are cached versions of PostStepDoIt's aStep and aTrack
+    const G4Track *fTrack;
+    const G4Step *fStep;
 
         // access to superclass variables
         
@@ -103,12 +107,5 @@ protected:
 // Inline methods
 ////////////////////
 
-inline
-void WCSimOpRetroBoundaryProcess::DoRetroReflection()
-{
-    theRetroStatus = RetroReflection;
-    NewMomentum = -OldMomentum;
-    NewPolarization = OldPolarization;
-}
 
 #endif /* WCSimOpRetroBoundaryProcess_h */

@@ -60,10 +60,10 @@ G4float WCSimDetectorConstruction::GetPMTQE(G4String CollectionName, G4float Pho
   if (flag == 1){
     //MF: off by one bug fix.
     for (int i=0; i<=18; i++){
-	  if ( PhotonWavelength <= *(wavelength+(i+1))){
-		wavelengthQE = *(QE+i) + 
-		  (*(QE+(i+1))-*(QE+i))/(*(wavelength+(i+1))-*(wavelength+i))*
-		  (PhotonWavelength - *(wavelength+i));
+	  if ( PhotonWavelength <= wavelength[i+1]){
+		wavelengthQE = QE[i] + 
+		  (QE[i+1]-QE[i])/(wavelength[i+1]-wavelength[i])*
+		  (PhotonWavelength - wavelength[i]);
       	break;
       }
     }
